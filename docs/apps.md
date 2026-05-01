@@ -91,13 +91,24 @@ DELETE /api/todos/:id                      → 204
 
 ## Markdown Notepad
 
+**Status:** Implemented.
+
 **Purpose:** Write and organize markdown notes, skills, docs.
 
 **Behavior:**
-- Multiple instances (one per open file)
-- Real files on disk at `data/notes/`
-- Supports directories
-- SQLite tracks recent files only
+- **Multi-instance**: Each open file gets its own window.
+- **File browser**: Tree view of `data/notes/` for discovery.
+- **Editor/Preview**: Toggle between raw markdown and rendered HTML (via `react-markdown`).
+- **Auto-save**: Debounced saving to real filesystem on change.
+- **Recent Files**: Persisted list in SQLite for quick access.
+
+**Frontend module:** `src/modules/notepad/`
+- `Notepad.tsx` — root wrapper for orchestration
+- `components/FileBrowser.tsx` — the browsing experience
+- `components/NoteEditor.tsx` — the editing/previewing experience
+- `queries/notepadQueries.ts` — FS + SQLite TanStack Query hooks
+- `api/notepadApi.ts` — Backend REST integration
+- `store/notepadStore.ts` — windowId to filePath mapping
 
 **Data model (SQLite):**
 ```

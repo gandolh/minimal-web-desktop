@@ -10,6 +10,7 @@ import {
 import { StickyNotes } from '../../modules/sticky-notes/StickyNotes'
 import { Todo } from '../../modules/todo/Todo'
 import { Bookmarks } from '../../modules/bookmarks/Bookmarks'
+import { Notepad } from '../../modules/notepad/Notepad'
 
 export type AppConfig = {
   id: string
@@ -26,9 +27,6 @@ export type AppConfig = {
 // TODO: Replace placeholder components with real app imports once modules are built
 
 
-function NotepadPlaceholder(_props: { windowId: string }) {
-  return <div style={{ padding: 16, fontFamily: 'Space Grotesk, sans-serif' }}>Notepad</div>
-}
 
 function DockerDesktopPlaceholder(_props: { windowId: string }) {
   return <div style={{ padding: 16, fontFamily: 'Space Grotesk, sans-serif' }}>Docker Desktop</div>
@@ -78,7 +76,7 @@ export const APP_REGISTRY: AppConfig[] = [
     description: 'Markdown text editor',
     meta: ['editor', 'markdown', 'text', 'write'],
     icon: FileText,
-    component: NotepadPlaceholder,
+    component: Notepad,
     multiInstance: true,
     defaultSize: { width: 600, height: 500 },
     minSize: { width: 400, height: 300 },
