@@ -1,6 +1,8 @@
+import { useEffect, useRef } from 'react'
 import { DesktopIcon } from './DesktopIcon'
 import { APP_REGISTRY } from '../../registry/registry'
 import { useWindowStore } from '../../store/windowStore'
+import { useDesktopStore } from '../../store/desktopStore'
 import type { Wallpaper } from '../../store/wallpaperStore'
 import { WindowContainer } from '../window/WindowContainer'
 
@@ -27,8 +29,29 @@ const WALLPAPER_STYLES: Record<Wallpaper, React.CSSProperties> = {
   },
 }
 
+const ICON_WIDTH = 64
+const ICON_HEIGHT = 80
+const GRID_GAP = 16
+const PADDING = 16
+
 export function Desktop({ wallpaper }: DesktopProps) {
   const openWindow = useWindowStore((s) => s.openWindow)
+  const { iconPositions, updateIconPosition } = useDesktopStore()
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    // Initialize positions if missing
+    APP_REGISTRY.forEach((app, index) => {
+      if (!iconPositions[app.id]) {
+        const col = Math.floor(index / 8)
+        const row = index % 8
+        updateIconPosition(app.id, {
+          x: PADDING + col * (ICON_WIDTH + GRID_GAP),
+          y: PADDING + row * (ICON_HEIGHT + GRID_GAP),
+        })
+      }
+    })
+  }, [iconPositions, updateIconPosition])
 
   function handleOpen(appId: string) {
     const app = APP_REGISTRY.find((a) => a.id === appId)
@@ -38,18 +61,26 @@ export function Desktop({ wallpaper }: DesktopProps) {
 
   return (
     <div
+      ref={containerRef}
       className="h-[calc(100vh-40px)] w-full relative overflow-hidden mt-[40px]"
       style={WALLPAPER_STYLES[wallpaper]}
     >
-      {/* Desktop icon grid — top-left, flows left-to-right wrapping */}
-      <div className="flex flex-wrap gap-4 p-4 content-start items-start">
-        {APP_REGISTRY.map((app) => (
-          <DesktopIcon
-            key={app.id}
-            app={app}
-            onOpen={() => handleOpen(app.id)}
-          />
-        ))}
+      {/* Desktop icon container - using absolute positioning for children */}
+      <div className="absolute inset-0 p-4">
+        {APP_REGISTRY.filter(app => app.id !== 'settings').map((app) => {
+          const pos = iconPositions[app.id]
+          if (!pos) return null
+          return (
+            <DesktopIcon
+              key={app.id}
+              app={app}
+              onOpen={() => handleOpen(app.id)}
+              position={pos}
+              onPositionChange={(newPos) => updateIconPosition(app.id, newPos)}
+              dragConstraints={containerRef}
+            />
+          )
+        })}
       </div>
 
       <WindowContainer />

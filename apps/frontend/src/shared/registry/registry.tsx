@@ -6,6 +6,7 @@ import {
   FileText,
   Container,
   Terminal,
+  Settings as SettingsIcon,
 } from 'lucide-react'
 import { StickyNotes } from '../../modules/sticky-notes/StickyNotes'
 import { Todo } from '../../modules/todo/Todo'
@@ -13,6 +14,7 @@ import { Bookmarks } from '../../modules/bookmarks/Bookmarks'
 import { Notepad } from '../../modules/notepad/Notepad'
 import { DockerDesktop } from '../../modules/docker-desktop/DockerDesktop'
 import { ServiceLauncher } from '../../modules/service-launcher/ServiceLauncher'
+import { Settings } from '../../modules/settings/Settings'
 
 export type AppConfig = {
   id: string
@@ -98,5 +100,16 @@ export const APP_REGISTRY: AppConfig[] = [
     multiInstance: false,
     defaultSize: { width: 720, height: 520 },
     minSize: { width: 500, height: 380 },
+  },
+  {
+    id: 'settings',
+    name: 'Settings',
+    description: 'System settings and appearance',
+    meta: ['config', 'appearance', 'background', 'wallpaper', 'theme'],
+    icon: SettingsIcon,
+    component: Settings,
+    multiInstance: false,
+    defaultSize: { width: 440, height: 500 },
+    minSize: { width: 360, height: 400 },
   },
 ]

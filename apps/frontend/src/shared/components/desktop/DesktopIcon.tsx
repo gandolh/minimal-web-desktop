@@ -1,13 +1,23 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { cn } from '../../../lib/cn'
 import type { AppConfig } from '../../registry/registry'
 
 type DesktopIconProps = {
   app: AppConfig
   onOpen: () => void
+  position: { x: number; y: number }
+  onPositionChange: (pos: { x: number; y: number }) => void
+  dragConstraints: React.RefObject<HTMLDivElement | null>
 }
 
-export function DesktopIcon({ app, onOpen }: DesktopIconProps) {
+export function DesktopIcon({
+  app,
+  onOpen,
+  position,
+  onPositionChange,
+  dragConstraints,
+}: DesktopIconProps) {
   const [selected, setSelected] = useState(false)
 
   const Icon = app.icon
@@ -26,8 +36,21 @@ export function DesktopIcon({ app, onOpen }: DesktopIconProps) {
   }
 
   return (
-    <div
-      className="flex flex-col items-center gap-1 cursor-default select-none outline-none w-[64px]"
+    <motion.div
+      drag
+      dragConstraints={dragConstraints}
+      dragMomentum={false}
+      dragElastic={0}
+      onDragEnd={(_, info) => {
+        onPositionChange({
+          x: position.x + info.offset.x,
+          y: position.y + info.offset.y,
+        })
+      }}
+      initial={false}
+      animate={{ x: position.x, y: position.y }}
+      whileDrag={{ scale: 1.05, zIndex: 10 }}
+      className="flex flex-col items-center gap-1 cursor-default select-none outline-none w-[64px] absolute top-0 left-0"
       tabIndex={0}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
@@ -62,6 +85,6 @@ export function DesktopIcon({ app, onOpen }: DesktopIconProps) {
       >
         {app.name}
       </span>
-    </div>
+    </motion.div>
   )
 }

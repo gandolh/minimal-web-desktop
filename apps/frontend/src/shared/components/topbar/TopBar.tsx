@@ -6,7 +6,6 @@ import dayjs from 'dayjs'
 import { cn } from '../../../lib/cn'
 import { api } from '../../../lib/axios'
 import { useWindowStore } from '../../store/windowStore'
-import { useWallpaperStore, type Wallpaper } from '../../store/wallpaperStore'
 import { APP_REGISTRY } from '../../registry'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -15,40 +14,6 @@ type SystemStats = {
   cpu: number
   ramUsedGb: number
   ramTotalGb: number
-}
-
-// ─── Wallpaper patterns (tiny CSS inline) ─────────────────────────────────────
-
-const WALLPAPER_PATTERNS: Record<
-  Wallpaper,
-  { label: string; style: React.CSSProperties }
-> = {
-  dots: {
-    label: 'Dots',
-    style: {
-      backgroundImage: 'radial-gradient(circle, #405f8e 1px, transparent 1px)',
-      backgroundSize: '4px 4px',
-      backgroundColor: '#f4f3f2',
-    },
-  },
-  grid: {
-    label: 'Grid',
-    style: {
-      backgroundImage:
-        'linear-gradient(#c3c6d0 1px, transparent 1px), linear-gradient(90deg, #c3c6d0 1px, transparent 1px)',
-      backgroundSize: '4px 4px',
-      backgroundColor: '#f4f3f2',
-    },
-  },
-  linen: {
-    label: 'Linen',
-    style: {
-      backgroundImage:
-        'repeating-linear-gradient(45deg, #c3c6d0 0, #c3c6d0 1px, transparent 0, transparent 50%)',
-      backgroundSize: '4px 4px',
-      backgroundColor: '#f4f3f2',
-    },
-  },
 }
 
 // ─── Mini Calendar ─────────────────────────────────────────────────────────────
@@ -250,12 +215,11 @@ function AppSearchDropdown({
 // ─── TopBar ────────────────────────────────────────────────────────────────────
 
 export function TopBar() {
-  const windows = useWindowStore((s) => s.windows)
+  const { windows, openWindow } = useWindowStore()
   const [windowsOpen, setWindowsOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchOpen, setSearchOpen] = useState(false)
   const [time, setTime] = useState(() => dayjs().format('HH:mm'))
-  const { wallpaper, setWallpaper } = useWallpaperStore()
   const windowsBtnRef = useRef<HTMLButtonElement>(null)
 
   // Live clock
@@ -377,32 +341,21 @@ export function TopBar() {
         {/* Separator */}
         <div className="h-5 w-px bg-outline-variant" />
 
-        {/* Wallpaper switcher */}
-        <div className="flex items-center gap-1">
-          {(Object.entries(WALLPAPER_PATTERNS) as [Wallpaper, (typeof WALLPAPER_PATTERNS)[Wallpaper]][]).map(
-            ([key, pat]) => (
-              <button
-                key={key}
-                className={cn(
-                  'cursor-pointer border outline-none',
-                  wallpaper === key ? 'border-primary' : 'border-outline-variant',
-                )}
-                style={{ width: 16, height: 16, ...pat.style }}
-                title={pat.label}
-                onClick={() => setWallpaper(key)}
-                aria-label={`Set ${pat.label} wallpaper`}
-              />
-            ),
-          )}
-        </div>
-
-        {/* Separator */}
-        <div className="h-5 w-px bg-outline-variant" />
-
         {/* Settings cog */}
         <button
           className="cursor-pointer p-0.5 text-on-surface-variant outline-none hover:text-on-surface"
           aria-label="Settings"
+          onClick={() => {
+            const settingsApp = APP_REGISTRY.find((a) => a.id === 'settings')
+            if (settingsApp) {
+              openWindow(
+                settingsApp.id,
+                settingsApp.name,
+                settingsApp.defaultSize,
+                settingsApp.minSize
+              )
+            }
+          }}
         >
           <Settings size={14} strokeWidth={1.5} />
         </button>
