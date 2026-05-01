@@ -11,6 +11,7 @@ import { StickyNotes } from '../../modules/sticky-notes/StickyNotes'
 import { Todo } from '../../modules/todo/Todo'
 import { Bookmarks } from '../../modules/bookmarks/Bookmarks'
 import { Notepad } from '../../modules/notepad/Notepad'
+import { DockerDesktop } from '../../modules/docker-desktop/DockerDesktop'
 
 export type AppConfig = {
   id: string
@@ -28,9 +29,6 @@ export type AppConfig = {
 
 
 
-function DockerDesktopPlaceholder(_props: { windowId: string }) {
-  return <div style={{ padding: 16, fontFamily: 'Space Grotesk, sans-serif' }}>Docker Desktop</div>
-}
 
 function ServiceLauncherPlaceholder(_props: { windowId: string }) {
   return <div style={{ padding: 16, fontFamily: 'Space Grotesk, sans-serif' }}>Service Launcher</div>
@@ -87,7 +85,7 @@ export const APP_REGISTRY: AppConfig[] = [
     description: 'Manage Docker containers',
     meta: ['containers', 'docker', 'images', 'compose'],
     icon: Container,
-    component: DockerDesktopPlaceholder,
+    component: DockerDesktop,
     multiInstance: false,
     defaultSize: { width: 800, height: 560 },
     minSize: { width: 600, height: 400 },

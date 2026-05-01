@@ -163,18 +163,23 @@ bookmark_links
 
 ## Docker Desktop
 
+**Status:** Implemented.
+
 **Purpose:** Manage local Docker containers.
 
 **Behavior:**
-- Single instance
-- Displays all containers and their status
-- Actions: start, stop, restart, delete
-- View container logs (REST polling, WebSocket future)
-- Status refreshed every 5 seconds
+- **Live Management**: Connects directly to `/var/run/docker.sock` via `dockerode`.
+- **Container List**: Displays all containers (running and stopped) with real-time status.
+- **Status Badges**: Visual indicators (Running, Exited, etc.) for quick health checks.
+- **Lifecycle Actions**: Start, stop, restart, and remove containers from the UI.
+- **Log Viewer**: Integrated terminal-style panel for viewing container logs with auto-refresh.
+- **Auto-refresh**: Container list and logs automatically poll the backend for updates.
 
-**Data:** No DB — live Docker API calls from backend
-
-**API:** REST on `/api/docker/containers`, `/api/docker/containers/:id/logs`, etc.
+**Frontend module:** `src/modules/docker-desktop/`
+- `DockerDesktop.tsx` — dashboard with list and log viewer
+- `queries/dockerQueries.ts` — polling hooks for status and logs
+- `api/dockerApi.ts` — Dockerode REST integration
+- `types.ts` — Type definitions
 
 ---
 
