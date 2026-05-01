@@ -124,12 +124,10 @@ In `src/shared/registry/registry.tsx`:
 
 ---
 
-## Steps to Continue
+## Implementation Plan
 
-1. Create `src/modules/todo/types.ts`
-2. Create `src/modules/todo/api/todosApi.ts`
-3. Create `src/modules/todo/queries/todosQueries.ts` with optimistic updates
-4. Implement `src/modules/todo/Todo.tsx` — filter tabs + rows + drag + inline edit + add input
-5. Update `src/shared/registry/registry.tsx` to use real `Todo` component
-6. Run `npm run build` in frontend — verify clean
-7. Delete this file, update `docs/todo/README.md`, update `docs/apps.md` with implementation details
+Full step-by-step plan (with code): [`docs/superpowers/plans/2026-05-01-todo-app-frontend.md`](../superpowers/plans/2026-05-01-todo-app-frontend.md)
+
+Follow that plan using **superpowers:executing-plans** (inline) or **superpowers:subagent-driven-development** (parallel agents).
+
+**Note:** `types.ts` and `api/todosApi.ts` are already implemented — plan starts at the queries layer.
