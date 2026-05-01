@@ -31,11 +31,9 @@ type ResizeHandleProps = {
 }
 
 function ResizeHandle({ direction, instanceId, minSize }: ResizeHandleProps) {
-  const { updatePosition, updateSize, windows } = useWindowStore((s) => ({
-    updatePosition: s.updatePosition,
-    updateSize: s.updateSize,
-    windows: s.windows,
-  }))
+  const updatePosition = useWindowStore((s) => s.updatePosition)
+  const updateSize = useWindowStore((s) => s.updateSize)
+  const windows = useWindowStore((s) => s.windows)
 
   const startRef = useRef<{
     x: number
@@ -133,15 +131,12 @@ function ResizeHandle({ direction, instanceId, minSize }: ResizeHandleProps) {
 }
 
 export function Window({ instance, minSize, children, isFocused }: WindowProps) {
-  const { closeWindow, hideWindow, maximizeWindow, restoreWindow, focusWindow, updatePosition } =
-    useWindowStore((s) => ({
-      closeWindow: s.closeWindow,
-      hideWindow: s.hideWindow,
-      maximizeWindow: s.maximizeWindow,
-      restoreWindow: s.restoreWindow,
-      focusWindow: s.focusWindow,
-      updatePosition: s.updatePosition,
-    }))
+  const closeWindow = useWindowStore((s) => s.closeWindow)
+  const hideWindow = useWindowStore((s) => s.hideWindow)
+  const maximizeWindow = useWindowStore((s) => s.maximizeWindow)
+  const restoreWindow = useWindowStore((s) => s.restoreWindow)
+  const focusWindow = useWindowStore((s) => s.focusWindow)
+  const updatePosition = useWindowStore((s) => s.updatePosition)
 
   const dragStartPos = useRef<{ x: number; y: number } | null>(null)
   const dragStartWindowPos = useRef<{ x: number; y: number } | null>(null)

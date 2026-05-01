@@ -2,9 +2,7 @@ import { DesktopIcon } from './DesktopIcon'
 import { APP_REGISTRY } from '../../registry/registry'
 import { useWindowStore } from '../../store/windowStore'
 import type { Wallpaper } from '../../store/wallpaperStore'
-
-// TODO: Import WindowContainer once the window module is built
-// import { WindowContainer } from '../../components/window/WindowContainer'
+import { WindowContainer } from '../window/WindowContainer'
 
 type DesktopProps = {
   wallpaper: Wallpaper
@@ -40,7 +38,7 @@ export function Desktop({ wallpaper }: DesktopProps) {
 
   return (
     <div
-      className="h-[calc(100vh-40px)] w-full relative overflow-hidden"
+      className="h-[calc(100vh-40px)] w-full relative overflow-hidden mt-[40px]"
       style={WALLPAPER_STYLES[wallpaper]}
     >
       {/* Desktop icon grid — top-left, flows left-to-right wrapping */}
@@ -54,8 +52,7 @@ export function Desktop({ wallpaper }: DesktopProps) {
         ))}
       </div>
 
-      {/* TODO: Render WindowContainer once window module is built */}
-      {/* <WindowContainer /> */}
+      <WindowContainer />
     </div>
   )
 }

@@ -254,15 +254,15 @@ export function TopBar() {
   const [windowsOpen, setWindowsOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchOpen, setSearchOpen] = useState(false)
-  const [time, setTime] = useState(() => dayjs().format('DD MMM · HH:mm:ss'))
+  const [time, setTime] = useState(() => dayjs().format('HH:mm'))
   const { wallpaper, setWallpaper } = useWallpaperStore()
   const windowsBtnRef = useRef<HTMLButtonElement>(null)
 
   // Live clock
   useEffect(() => {
     const id = setInterval(() => {
-      setTime(dayjs().format('DD MMM · HH:mm:ss'))
-    }, 1000)
+      setTime(dayjs().format('HH:mm'))
+    }, 10000)
     return () => clearInterval(id)
   }, [])
 
