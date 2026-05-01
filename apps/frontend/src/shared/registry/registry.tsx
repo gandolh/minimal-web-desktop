@@ -8,6 +8,7 @@ import {
   Terminal,
 } from 'lucide-react'
 import { StickyNotes } from '../../modules/sticky-notes/StickyNotes'
+import { Todo } from '../../modules/todo/Todo'
 
 export type AppConfig = {
   id: string
@@ -22,9 +23,6 @@ export type AppConfig = {
 }
 
 // TODO: Replace placeholder components with real app imports once modules are built
-function TodoPlaceholder(_props: { windowId: string }) {
-  return <div style={{ padding: 16, fontFamily: 'Space Grotesk, sans-serif' }}>Todo</div>
-}
 
 function BookmarksPlaceholder(_props: { windowId: string }) {
   return <div style={{ padding: 16, fontFamily: 'Space Grotesk, sans-serif' }}>Bookmarks</div>
@@ -60,7 +58,7 @@ export const APP_REGISTRY: AppConfig[] = [
     description: 'Task list and to-dos',
     meta: ['tasks', 'checklist', 'reminders'],
     icon: ListTodo,
-    component: TodoPlaceholder,
+    component: Todo,
     multiInstance: false,
     defaultSize: { width: 360, height: 480 },
     minSize: { width: 280, height: 300 },

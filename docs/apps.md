@@ -48,16 +48,24 @@ DELETE /api/sticky-notes/:id     → 204
 
 ## Todo
 
-**Status:** Backend complete. Frontend pending.
+**Status:** Implemented.
 
 **Purpose:** Minimalist personal task list.
 
 **Behavior:**
 - Single instance
 - Tasks can be checked, unchecked, edited, deleted, reordered by drag
-- Filter by All / Active / Completed
-- Phantom inline editing (click text to edit in-place)
-- Drag-to-reorder via `@use-gesture/react`
+- Filter tabs: **All / Active / Completed**
+- **Drag-to-reorder** via `@use-gesture/react` (persists `position` index)
+- **Phantom inline editing**: Click task text to swap `<span>` for `<input>`; Enter/blur saves, Escape cancels
+- **Add task bar**: Bottom input, Enter to submit
+- **Optimistic updates** for checkbox toggles and deletions (instant UI feedback)
+
+**Frontend module:** `src/modules/todo/`
+- `Todo.tsx` — main component with row sub-component
+- `queries/todosQueries.ts` — TanStack Query hooks with optimistic logic
+- `api/todosApi.ts` — Axios CRUD functions
+- `types.ts` — Type definitions
 
 **Data model (SQLite):**
 ```
@@ -78,8 +86,6 @@ PATCH  /api/todos/reorder                  → { ids: number[] }
 PATCH  /api/todos/:id                      → Todo
 DELETE /api/todos/:id                      → 204
 ```
-
-**Frontend module:** `src/modules/todo/` — see `docs/todo/5-todo-app.md` for full spec.
 
 ---
 
