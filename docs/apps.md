@@ -185,13 +185,22 @@ bookmark_links
 
 ## Service Launcher
 
+**Status:** Implemented.
+
 **Purpose:** Start/stop predefined local dev services and Docker Compose stacks.
 
 **Behavior:**
 - Single instance
-- Lists all configured services
-- Clicking a service opens a mini terminal window with live output
-- Each service config is a JSON file in `data/configs/` (git-ignored)
+- Lists all configured services from `data/configs/`
+- Clicking a service opens an integrated terminal viewer with live output
+- Real-time terminal rendering via `xterm.js` with ANSI color support
+- Buffered log capture (last 1000 lines)
+
+**Frontend module:** `src/modules/service-launcher/`
+- `ServiceLauncher.tsx` — main dashboard and list
+- `components/TerminalViewer.tsx` — xterm.js terminal integration
+- `queries/servicesQueries.ts` — polling hooks for status and logs
+- `api/servicesApi.ts` — Backend REST integration
 
 **Config file format (`data/configs/my-service.json`):**
 ```json
@@ -203,10 +212,16 @@ bookmark_links
 }
 ```
 
-**Process management:** `execa` + `node-pty`
+**Process management:** `node-pty` for pseudo-terminal execution
 **Terminal rendering:** `xterm.js` in frontend
 
-**API:** REST on `/api/services` (list, start, stop, logs)
+**API routes:**
+```
+GET    /api/services            → Service[]
+POST   /api/services/:id/start  → 200
+POST   /api/services/:id/stop   → 200
+GET    /api/services/:id/logs   → { logs: string }
+```
 
 ---
 

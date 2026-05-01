@@ -12,6 +12,7 @@ import { Todo } from '../../modules/todo/Todo'
 import { Bookmarks } from '../../modules/bookmarks/Bookmarks'
 import { Notepad } from '../../modules/notepad/Notepad'
 import { DockerDesktop } from '../../modules/docker-desktop/DockerDesktop'
+import { ServiceLauncher } from '../../modules/service-launcher/ServiceLauncher'
 
 export type AppConfig = {
   id: string
@@ -30,9 +31,6 @@ export type AppConfig = {
 
 
 
-function ServiceLauncherPlaceholder(_props: { windowId: string }) {
-  return <div style={{ padding: 16, fontFamily: 'Space Grotesk, sans-serif' }}>Service Launcher</div>
-}
 
 export const APP_REGISTRY: AppConfig[] = [
   {
@@ -96,7 +94,7 @@ export const APP_REGISTRY: AppConfig[] = [
     description: 'Launch and manage local services',
     meta: ['terminal', 'services', 'processes', 'run'],
     icon: Terminal,
-    component: ServiceLauncherPlaceholder,
+    component: ServiceLauncher,
     multiInstance: false,
     defaultSize: { width: 720, height: 520 },
     minSize: { width: 500, height: 380 },
