@@ -113,13 +113,23 @@ recent_files
 
 ## Bookmarks
 
+**Status:** Implemented.
+
 **Purpose:** Grouped link launcher — opens links in browser tab.
 
 **Behavior:**
 - Single instance
 - Links open in new browser tab (native anchor)
-- Groups with optional icons
-- Links with optional icons
+- Groups sections with names and foldering feel
+- **Inline CRUD**: Add/edit/delete groups and links directly in the UI
+- Icons: `Folder` for groups, `Link2` for individual links
+- Fallback and hover actions (Edit, Delete, Open)
+
+**Frontend module:** `src/modules/bookmarks/`
+- `Bookmarks.tsx` — main component with group/link rows
+- `queries/bookmarksQueries.ts` — TanStack Query hooks
+- `api/bookmarksApi.ts` — Axios CRUD functions
+- `types.ts` — Type definitions
 
 **Data model (SQLite):**
 ```

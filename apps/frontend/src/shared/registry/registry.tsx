@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import { StickyNotes } from '../../modules/sticky-notes/StickyNotes'
 import { Todo } from '../../modules/todo/Todo'
+import { Bookmarks } from '../../modules/bookmarks/Bookmarks'
 
 export type AppConfig = {
   id: string
@@ -24,9 +25,6 @@ export type AppConfig = {
 
 // TODO: Replace placeholder components with real app imports once modules are built
 
-function BookmarksPlaceholder(_props: { windowId: string }) {
-  return <div style={{ padding: 16, fontFamily: 'Space Grotesk, sans-serif' }}>Bookmarks</div>
-}
 
 function NotepadPlaceholder(_props: { windowId: string }) {
   return <div style={{ padding: 16, fontFamily: 'Space Grotesk, sans-serif' }}>Notepad</div>
@@ -69,7 +67,7 @@ export const APP_REGISTRY: AppConfig[] = [
     description: 'Save and organize links',
     meta: ['links', 'favorites', 'urls'],
     icon: Bookmark,
-    component: BookmarksPlaceholder,
+    component: Bookmarks,
     multiInstance: false,
     defaultSize: { width: 480, height: 520 },
     minSize: { width: 320, height: 400 },
