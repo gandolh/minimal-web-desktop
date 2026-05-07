@@ -53,6 +53,16 @@ export class DbService implements OnModuleInit {
         path TEXT NOT NULL UNIQUE,
         last_opened DATETIME DEFAULT CURRENT_TIMESTAMP
       );
+
+      CREATE TABLE IF NOT EXISTS repl_configs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        command TEXT NOT NULL,
+        args TEXT NOT NULL DEFAULT '',
+        cwd TEXT NOT NULL DEFAULT '',
+        prompt_prefix TEXT NOT NULL DEFAULT '>',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
     `);
 
     try {

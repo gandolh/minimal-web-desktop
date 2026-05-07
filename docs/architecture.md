@@ -70,11 +70,13 @@ ComponentType<{ windowId: string }>
 | App | Status | Module path |
 |---|---|---|
 | Sticky Notes | ✅ Complete | `src/modules/sticky-notes/` |
-| Todo | ⚙️ Backend done, frontend pending | `src/modules/todo/` |
-| Bookmarks | 🔲 Placeholder | `src/modules/bookmarks/` |
-| Notepad | 🔲 Placeholder | `src/modules/notepad/` |
-| Docker Desktop | 🔲 Placeholder | `src/modules/docker-desktop/` |
-| Service Launcher | 🔲 Placeholder | `src/modules/service-launcher/` |
+| Todo | ✅ Complete | `src/modules/todo/` |
+| Bookmarks | ✅ Complete | `src/modules/bookmarks/` |
+| Notepad | ✅ Complete | `src/modules/notepad/` |
+| Docker Desktop | ✅ Complete | `src/modules/docker-desktop/` |
+| Service Launcher | ✅ Complete | `src/modules/service-launcher/` |
+| Settings | ✅ Complete | `src/modules/settings/` |
+| REPL Interpreter | ✅ Complete | `src/modules/repl-interpreter/` |
 
 ## Data Persistence
 
@@ -87,6 +89,8 @@ ComponentType<{ windowId: string }>
 | Markdown Notepad (content) | Real files in `data/notes/` |
 | Service Launcher configs | JSON files in `data/configs/` (git-ignored) |
 | Docker Desktop | No persistence — live Docker API |
+| REPL Interpreter configs | SQLite |
+| REPL Interpreter sessions | In-memory only (no persistence) |
 
 ## Deployment
 

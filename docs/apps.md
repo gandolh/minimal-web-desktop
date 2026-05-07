@@ -225,6 +225,62 @@ GET    /api/services/:id/logs   → { logs: string }
 
 ---
 
+## REPL Interpreter
+
+**Status:** Implemented.
+
+**Purpose:** Run interactive REPL programs (Node, Python, etc.) in a chat-style interface with named configurations.
+
+**Behavior:**
+- Single instance window with a tab system
+- **Configs tab** (permanent): list, create, edit, delete named REPL configurations
+- **Session tabs** (closeable): one per active REPL session, labeled with the config name
+- Clicking a config row starts a session and opens a new tab
+- Chat-style interaction: type a command, press Enter, output appears below
+- Input disabled while waiting for backend response
+- Dead session detection: input permanently disabled with "session ended" indicator when process exits unexpectedly or times out
+- Prompt prefix shown as a chip in the session tab header and before each command in history
+- Sessions auto-killed after 10 minutes of inactivity
+- ANSI escape codes stripped from output before display
+
+**Frontend module:** `src/modules/repl-interpreter/`
+- `ReplInterpreter.tsx` — root component, owns tab state
+- `components/ConfigsTab.tsx` — config list + inline create/edit/delete form
+- `components/ReplTab.tsx` — interactive session UI (history + input bar)
+- `api/replApi.ts` — axios calls for configs and sessions
+- `queries/replQueries.ts` — TanStack Query hooks for config CRUD
+- `types.ts` — `ReplConfig`, `ReplEntry`, `ReplTabState`
+
+**Data model (SQLite):**
+```
+repl_configs
+  id            INTEGER PRIMARY KEY AUTOINCREMENT
+  name          TEXT NOT NULL
+  command       TEXT NOT NULL
+  args          TEXT NOT NULL DEFAULT ''
+  cwd           TEXT NOT NULL DEFAULT ''
+  prompt_prefix TEXT NOT NULL DEFAULT '>'
+  created_at    DATETIME DEFAULT CURRENT_TIMESTAMP
+```
+
+Sessions are in-memory only — closing a tab or window kills the process immediately.
+
+**API routes:**
+```
+GET    /api/repl/configs            → ReplConfig[]
+POST   /api/repl/configs            → ReplConfig (201)
+PATCH  /api/repl/configs/:id        → ReplConfig
+DELETE /api/repl/configs/:id        → 204
+
+POST   /api/repl/sessions           → { sessionId }   body: { configId }
+DELETE /api/repl/sessions/:id       → 204
+POST   /api/repl/sessions/:id/input → { output }      body: { command }
+```
+
+**Process management:** `node-pty` spawns the REPL program directly (not through a shell wrapper). `strip-ansi` cleans output before returning it to the frontend.
+
+---
+
 ## Extensibility
 
 To add a new app:

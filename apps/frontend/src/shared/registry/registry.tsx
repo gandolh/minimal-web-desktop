@@ -7,6 +7,7 @@ import {
   Container,
   Terminal,
   Settings as SettingsIcon,
+  SquareTerminal,
 } from 'lucide-react'
 import { StickyNotes } from '../../modules/sticky-notes/StickyNotes'
 import { Todo } from '../../modules/todo/Todo'
@@ -15,6 +16,7 @@ import { Notepad } from '../../modules/notepad/Notepad'
 import { DockerDesktop } from '../../modules/docker-desktop/DockerDesktop'
 import { ServiceLauncher } from '../../modules/service-launcher/ServiceLauncher'
 import { Settings } from '../../modules/settings/Settings'
+import { ReplInterpreter } from '../../modules/repl-interpreter/ReplInterpreter'
 
 export type AppConfig = {
   id: string
@@ -111,5 +113,16 @@ export const APP_REGISTRY: AppConfig[] = [
     multiInstance: false,
     defaultSize: { width: 440, height: 500 },
     minSize: { width: 360, height: 400 },
+  },
+  {
+    id: 'repl-interpreter',
+    name: 'REPL Interpreter',
+    description: 'Run interactive REPL programs',
+    meta: ['repl', 'node', 'python', 'shell', 'interpreter'],
+    icon: SquareTerminal,
+    component: ReplInterpreter,
+    multiInstance: false,
+    defaultSize: { width: 700, height: 520 },
+    minSize: { width: 500, height: 380 },
   },
 ]

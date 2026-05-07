@@ -8,6 +8,7 @@ import { BookmarksModule } from './modules/bookmarks/bookmarks.module';
 import { DockerModule } from './modules/docker/docker.module';
 import { ServicesModule } from './modules/services/services.module';
 import { SystemModule } from './modules/system/system.module';
+import { ReplModule } from './modules/repl/repl.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { SystemModule } from './modules/system/system.module';
     DockerModule,
     ServicesModule,
     SystemModule,
+    ReplModule,
   ],
 })
 export class AppModule {}
